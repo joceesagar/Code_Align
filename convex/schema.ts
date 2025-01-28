@@ -10,3 +10,4 @@ export default defineSchema({
         clerkId: v.string()
     }).index("by_clerk_id", ["clerkId"])             //to retrive users by_clerk_id(passing clerkId)
 })
+
