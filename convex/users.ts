@@ -11,7 +11,7 @@ export const syncUser = mutation({
         image: v.optional(v.string())
     },
     handler: async (ctx, args) => {
-        const existingUser = await ctx.db.query("users").filter(q => q.eq(q.field("clerkId"), args.clerkId)) //check if the user already exist
+        const existingUser = await ctx.db.query("users").filter((q) => q.eq(q.field("clerkId"), args.clerkId)).first() //check if the user already exist
         if (existingUser) return
 
         return await ctx.db.insert("users", {
