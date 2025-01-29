@@ -17,6 +17,7 @@ function EndCallButton() {
         streamCallId: call?.id || "",
     });
 
+    //This button will only show up if the meeting is scheduled meeting. If the meeting is instant, it will not be saved in db so it will return null and we will not see this button
     if (!call || !interview) return null;
 
     const isMeetingOwner = localParticipant?.userId === call.state.createdBy?.id;
