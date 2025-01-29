@@ -27,6 +27,7 @@ function MeetingPage() {
         );
     }
     return (
+        //here we have already passed call so we can access this current call anywhere in components inside stream call only using useCall from stream. if it was not used we have to get current call by using useGetCallById hook
         <StreamCall call={call}>
             <StreamTheme>
                 {!isSetupComplete ? (

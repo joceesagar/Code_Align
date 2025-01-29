@@ -12,6 +12,7 @@
     "@clerk/nextjs": "^6.10.3",
     "@radix-ui/react-dialog": "^1.1.5",
     "@radix-ui/react-slot": "^1.1.1",
+    "@radix-ui/react-switch": "^1.1.2",
     "@stream-io/node-sdk": "^0.4.11",
     "@stream-io/video-react-sdk": "^1.10.6",
     "class-variance-authority": "^0.7.1",
@@ -23,6 +24,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hot-toast": "^2.5.1",
+    "react-resizable-panels": "^2.1.7",
     "svix": "^1.45.1",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"
