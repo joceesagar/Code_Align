@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "./ui/resizable";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
+import EndCallButton from "./EndCallButton";
 
 
 function MeetingRoom() {
@@ -71,7 +72,7 @@ function MeetingRoom() {
                                         <UsersIcon className="size-4" />
                                     </Button>
 
-                                    <button>End call</button>
+                                    <EndCallButton />
                                 </div>
                             </div>
                         </div>
