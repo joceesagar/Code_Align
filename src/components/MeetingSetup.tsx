@@ -11,17 +11,23 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
 
     const call = useCall();
 
+
+
+    useEffect(() => {
+        if (call?.camera) {
+            if (isCameraDisabled) call.camera.disable(); //this will be handled by the stream.io SDK
+            else call.camera.enable();
+        }
+    }, [isCameraDisabled, call?.camera]);
+
+    useEffect(() => {
+        if (call?.microphone) {
+            if (isMicDisabled) call.microphone.disable(); ////this will be handled by the stream.io SDK
+            else call.microphone.enable();
+        }
+    }, [isMicDisabled, call?.microphone]);
+
     if (!call) return null;
-
-    useEffect(() => {
-        if (isCameraDisabled) call.camera.disable(); //this will be handled by the stream.io SDK
-        else call.camera.enable();
-    }, [isCameraDisabled, call.camera]);
-
-    useEffect(() => {
-        if (isMicDisabled) call.microphone.disable(); ////this will be handled by the stream.io SDK
-        else call.microphone.enable();
-    }, [isMicDisabled, call.microphone]);
 
     const handleJoin = async () => {
         await call.join();

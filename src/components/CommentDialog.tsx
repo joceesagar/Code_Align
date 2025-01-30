@@ -46,6 +46,7 @@ function CommentDialog({ interviewId }: { interviewId: Id<"interviews"> }) {
             setRating("3");
             setIsOpen(false);
         } catch (error) {
+            console.error(error)
             toast.error("Failed to submit comment");
         }
     };

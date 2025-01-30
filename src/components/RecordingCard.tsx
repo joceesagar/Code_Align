@@ -12,6 +12,7 @@ function RecordingCard({ recording }: { recording: CallRecording }) {
             await navigator.clipboard.writeText(recording.url);
             toast.success("Recording link copied to clipboard");
         } catch (error) {
+            console.error(error)
             toast.error("Failed to copy link to clipboard");
         }
     };
