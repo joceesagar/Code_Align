@@ -16,7 +16,7 @@ export const syncUser = mutation({
 
         return await ctx.db.insert("users", {
             ...args, //...ars means all the properties of args like name, email etc
-            role: "candidate"
+            role: "interviewer" // by default role is interviewer
         })
     }
 })
