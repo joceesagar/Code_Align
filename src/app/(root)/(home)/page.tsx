@@ -11,7 +11,6 @@ import MeetingModal from "@/components/MeetingModal";
 import LoaderUI from "@/components/LoaderUI";
 import { Loader2Icon } from "lucide-react";
 import MeetingCard from "@/components/MeetingCard";
-import { useUpdateUserRole } from "@/hooks/useUpdateUserRole";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
 import toast from "react-hot-toast";
