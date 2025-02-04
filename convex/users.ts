@@ -8,21 +8,16 @@ export const syncUser = mutation({
         name: v.string(),
         email: v.string(),
         clerkId: v.string(),
-        image: v.optional(v.string())
+        image: v.optional(v.string()),
+        role: v.literal("interviewer")
     },
     handler: async (ctx, args) => {
         const existingUser = await ctx.db.query("users").filter((q) => q.eq(q.field("clerkId"), args.clerkId)).first() //check if the user already exist
-        if (existingUser) {
-            // Ensure role is "interviewer" if it's missing or different(just remove these two lines of you want default as candidate)
-            if (!existingUser.role || existingUser.role !== "interviewer") {
-                await ctx.db.patch(existingUser._id, { role: "interviewer" });
-            }
-            return;
-        }
+        if (existingUser) return;
+
 
         return await ctx.db.insert("users", {
             ...args, //...ars means all the properties of args like name, email etc
-            role: "interviewer" // by default role is interviewer
         })
     }
 })
