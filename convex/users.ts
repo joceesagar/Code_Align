@@ -14,7 +14,7 @@ export const syncUser = mutation({
         const existingUser = await ctx.db.query("users").filter((q) => q.eq(q.field("clerkId"), args.clerkId)).first() //check if the user already exist
         if (existingUser) {
             // Ensure role is "interviewer" if it's missing or different(just remove these two lines of you want default as candidate)
-            if (existingUser.role !== "interviewer") {
+            if (!existingUser.role || existingUser.role !== "interviewer") {
                 await ctx.db.patch(existingUser._id, { role: "interviewer" });
             }
             return;
