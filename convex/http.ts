@@ -104,7 +104,6 @@ http.route({
                     email, // Email address of the user
                     name, // Full name of the user
                     image: image_url, // Profile image URL of the user
-                    role: "interviewer" //making the default role interviewer
                 });
             } catch (error) {
                 console.log("Error creating user:", error);

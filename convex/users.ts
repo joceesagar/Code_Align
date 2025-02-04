@@ -8,8 +8,7 @@ export const syncUser = mutation({
         name: v.string(),
         email: v.string(),
         clerkId: v.string(),
-        image: v.optional(v.string()),
-        role: v.literal("interviewer")
+        image: v.optional(v.string())
     },
     handler: async (ctx, args) => {
         const existingUser = await ctx.db.query("users").filter((q) => q.eq(q.field("clerkId"), args.clerkId)).first() //check if the user already exist
@@ -18,6 +17,7 @@ export const syncUser = mutation({
 
         return await ctx.db.insert("users", {
             ...args, //...ars means all the properties of args like name, email etc
+            role: "interviewer" // by default role is interviewer
         })
     }
 })
@@ -44,3 +44,23 @@ export const getUserByClerkId = query({
         return user
     }
 })
+
+//for updating user role
+export const updateUserRole = mutation({
+    args: {
+        clerkId: v.string(),
+        role: v.union(v.literal("interviewer"), v.literal("candidate")),
+    },
+    handler: async (ctx, args) => {
+        const existingUser = await ctx.db
+            .query("users")
+            .filter((q) => q.eq(q.field("clerkId"), args.clerkId))
+            .first();
+
+        if (!existingUser) {
+            throw new Error("User not found");
+        }
+
+        return await ctx.db.patch(existingUser._id, { role: args.role });
+    },
+});

@@ -11,11 +11,14 @@ import MeetingModal from "@/components/MeetingModal";
 import LoaderUI from "@/components/LoaderUI";
 import { Loader2Icon } from "lucide-react";
 import MeetingCard from "@/components/MeetingCard";
+import { useUpdateUserRole } from "@/hooks/useUpdateUserRole";
+import { Button } from "react-day-picker";
 
 export default function Home() {
   const router = useRouter();
 
   const { isInterviewer, isLoading } = useUserRole();
+  const { updateRole } = useUpdateUserRole();
   const interviews = useQuery(api.interviews.getMyInterviews);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState<"start" | "join">();
@@ -89,8 +92,9 @@ export default function Home() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 text-muted-foreground">
+              <div className="text-center flex items-center justify-center py-12 text-muted-foreground">
                 You have no scheduled interviews at the moment
+                <Button onClick={async () => await updateRole("interviewer")}>Create Meeting</Button>
               </div>
             )}
           </div>
