@@ -48,19 +48,30 @@ export const getUserByClerkId = query({
 //for updating user role
 export const updateUserRole = mutation({
     args: {
-        clerkId: v.string(),
-        role: v.union(v.literal("interviewer"), v.literal("candidate")),
+        clerkId: v.string(), // Ensure clerkId is a valid string
+        role: v.union(v.literal("interviewer"), v.literal("candidate")), // Allow only "interviewer" or "candidate" as valid roles
     },
     handler: async (ctx, args) => {
+        // Query the database for the user based on clerkId
         const existingUser = await ctx.db
             .query("users")
             .filter((q) => q.eq(q.field("clerkId"), args.clerkId))
-            .first();
+            .first(); // Retrieve the first matching user
 
         if (!existingUser) {
+            // If user doesn't exist, throw an error
             throw new Error("User not found");
         }
 
-        return await ctx.db.patch(existingUser._id, { role: args.role });
+        // Proceed to patch (update) the user's role
+        try {
+            // Update the role in the database
+            return await ctx.db.patch(existingUser._id, { role: args.role });
+        } catch (error) {
+            // Handle any errors during the patch operation
+            console.error("Error updating role:", error);
+            throw new Error("Failed to update role");
+        }
     },
 });
+

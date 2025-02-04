@@ -3,7 +3,7 @@
 import ActionCard from "@/components/ActionCard";
 import { QUICK_ACTIONS } from "@/constants";
 import { useUserRole } from "@/hooks/useUserRole";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { useState } from "react";
 import { api } from "../../../../convex/_generated/api";
 import { useRouter } from "next/navigation";
@@ -13,16 +13,20 @@ import { Loader2Icon } from "lucide-react";
 import MeetingCard from "@/components/MeetingCard";
 import { useUpdateUserRole } from "@/hooks/useUpdateUserRole";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@clerk/nextjs";
+import toast from "react-hot-toast";
 
 
 export default function Home() {
   const router = useRouter();
 
   const { isInterviewer, isLoading } = useUserRole();
-  const { updateRole } = useUpdateUserRole();
+  // Use the useMutation hook to get the mutation function
+  const updateUserRole = useMutation(api.users.updateUserRole);
   const interviews = useQuery(api.interviews.getMyInterviews);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState<"start" | "join">();
+  const { user } = useUser();
 
   const handleQuickAction = (title: string) => {
     switch (title) {
@@ -36,6 +40,28 @@ export default function Home() {
         break;
       default:
         router.push(`/${title.toLowerCase()}`);
+    }
+  };
+
+  // Event handler for button click
+  const handleUpdateRole = async () => {
+    if (!user) {
+      console.error("No user found!");
+      return;
+    }
+    try {
+      // Get the user's clerkId and the role you'd like to assign
+      const clerkId = user.id
+      const role = "interviewer"; // Or "candidate" as needed
+
+      // Call the mutation with the provided arguments
+      await updateUserRole({ clerkId, role });
+
+      // Optionally, show a success message or handle any post-mutation actions
+      toast.success("Role Updated Successfully")
+    } catch (error) {
+      // Handle any errors that occur during the mutation call
+      console.error("Error updating user role:", error);
     }
   };
 
@@ -95,7 +121,7 @@ export default function Home() {
             ) : (
               <div className="text-center flex flex-col gap-4 items-center justify-center py-12 text-muted-foreground">
                 <p>You have no scheduled interviews at the moment</p>
-                <Button onClick={async () => await updateRole("interviewer")}>Create Meeting</Button>
+                <Button onClick={handleUpdateRole}>Create Meeting</Button>
               </div>
             )}
           </div>
