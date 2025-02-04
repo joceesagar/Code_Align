@@ -12,7 +12,8 @@ import LoaderUI from "@/components/LoaderUI";
 import { Loader2Icon } from "lucide-react";
 import MeetingCard from "@/components/MeetingCard";
 import { useUpdateUserRole } from "@/hooks/useUpdateUserRole";
-import { Button } from "react-day-picker";
+import { Button } from "@/components/ui/button";
+
 
 export default function Home() {
   const router = useRouter();
@@ -92,8 +93,8 @@ export default function Home() {
                 ))}
               </div>
             ) : (
-              <div className="text-center flex items-center justify-center py-12 text-muted-foreground">
-                You have no scheduled interviews at the moment
+              <div className="text-center flex flex-col gap-4 items-center justify-center py-12 text-muted-foreground">
+                <p>You have no scheduled interviews at the moment</p>
                 <Button onClick={async () => await updateRole("interviewer")}>Create Meeting</Button>
               </div>
             )}
